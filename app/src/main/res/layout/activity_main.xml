@@ -1,80 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/mainMenuLayout"
     android:layout_height="match_parent"
-    android:id="@+id/activity_main"
-    android:padding="15dp"
-    tools:context=".MainActivity">
+    android:background="#F0F0F0"
+    android:padding="20dp">
 
+    <!-- Logo / Mascot (Ganti src dengan gambar maskotmu) -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:contentDescription="Logo Tebak Gambar" />
 
+    <!-- Tombol AYO MAIN -->
+    <Button
+        android:id="@+id/btnAyoMain"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/imgLogo"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:backgroundTint="#FF5722"
+        android:text="AYO MAIN"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF" />
+
+    <!-- Copyright footer -->
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="209dp"
-        android:text="Club sepak bola yang memenangkan liga champions adalah :"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="42dp">
-
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroup"
-            android:layout_toStartOf="@+id/radioGroup"
-            android:layout_toLeftOf="@+id/radioGroup"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick="onRadioButton"
-            android:text="Real Madrid" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton"
-            android:layout_alignStart="@+id/radioButton"
-            android:layout_alignLeft="@+id/radioButton"
-            android:layout_marginTop="36dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick="onRadioButton"
-            android:text="Liverpool" />
-
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton2"
-            android:layout_alignStart="@+id/radioButton2"
-            android:layout_alignLeft="@+id/radioButton2"
-            android:layout_marginTop="26dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick="onRadioButton"
-            android:text="Barcelona" />
-
-        <RadioButton
-            android:id="@+id/radioButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton3"
-            android:layout_alignStart="@+id/radioButton3"
-            android:layout_alignLeft="@+id/radioButton3"
-            android:layout_marginTop="39dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick="onRadioButton"
-            android:text="Juventus" />
-
-    </RadioGroup>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="TEBAK GAMBAR © 2025"
+        android:textStyle="bold"
+        android:textColor="#000000" />
 
 </RelativeLayout>

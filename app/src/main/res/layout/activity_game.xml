@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#4CB5AB">
+
+    <!-- Header Status -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#009688"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soal 1/10"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEBAK GAMBAR"
+            android:textColor="#FFEB3B"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <!-- Area Gambar Soal -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="20dp"
+        android:elevation="8dp">
+
+        <ImageView
+            android:id="@+id/imgSoal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:background="#E0E0E0"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Pilihan Ganda Container -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp">
+
+        <!-- Pilihan A -->
+        <Button
+            android:id="@+id/btnOptionA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="5dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="#FFF"
+            android:text="Pilihan A" />
+
+        <!-- Pilihan B -->
+        <Button
+            android:id="@+id/btnOptionB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="5dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="#FFF"
+            android:text="Pilihan B" />
+
+        <!-- Pilihan C -->
+        <Button
+            android:id="@+id/btnOptionC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="5dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="#FFF"
+            android:text="Pilihan C" />
+
+        <!-- Pilihan D -->
+        <Button
+            android:id="@+id/btnOptionD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="5dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="#FFF"
+            android:text="Pilihan D" />
+
+    </GridLayout>
+
+</LinearLayout>
