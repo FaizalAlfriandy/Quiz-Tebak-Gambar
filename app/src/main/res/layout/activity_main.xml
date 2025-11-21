@@ -62,7 +62,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="45dp"
-        android:text="Copyright Belongs To"
+        android:text="Questions Creator Belongs To"
         android:fontFamily="@font/luckiestguy_regular"
         android:textColor="@color/white"
         android:shadowColor="#000000"
