@@ -6,41 +6,56 @@
     android:background="@drawable/bg_gradient_game">
 
     <!-- Header Status -->
+
+
+    <!-- Area Gambar Soal -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#D57F24"
+        android:background="#D98932"
+        android:elevation="4dp"
         android:padding="10dp"
-        android:elevation="4dp">
+        android:shadowColor="#0B0202"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="14" >
 
         <TextView
             android:id="@+id/tvLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/luckiestguy_regular"
             android:text="Soal 1/10"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_centerVertical="true" />
+            android:textStyle="italic"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="4" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TEBAK GAMBAR"
-            android:textColor="#FFF176"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/luckiestguy_regular"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="4"
+            android:text="TEBAK GAMBAR"
+            android:textColor="#FFFD9E"
+            android:textSize="20sp" />
     </RelativeLayout>
 
-
-    <!-- Area Gambar Soal -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:layout_margin="20dp"
+        android:layout_marginBottom="10dp"
         android:elevation="8dp"
         android:radius="15dp">
 
@@ -49,51 +64,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
-            android:padding="10dp"
-            android:background="#FAFAFA" />
+            android:padding="15dp"
+            android:background="#954C00" />
     </androidx.cardview.widget.CardView>
 
-
-    <!-- Pilihan Ganda Container -->
+    <!-- Pilihan Ganda -->
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:rowCount="2"
         android:columnCount="2"
         android:padding="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
 
         <Button
             android:id="@+id/btnOptionA"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btn_option"
             android:textColor="#FFFFFF"
             android:text="Pilihan A" />
-
 
         <Button
             android:id="@+id/btnOptionB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btn_option"
             android:textColor="#FFFFFF"
             android:text="Pilihan B" />
-
 
         <Button
             android:id="@+id/btnOptionC"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btn_option"
             android:textColor="#FFFFFF"
             android:text="Pilihan C" />
@@ -103,29 +113,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btn_option"
             android:textColor="#FFFFFF"
             android:text="Pilihan D" />
+
     </GridLayout>
 
 
-    <!-- Tombol Keluar -->
-    <Button
-        android:id="@+id/btnKeluar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="KELUAR"
-        android:textStyle="bold"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_exit"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp"
-        android:elevation="6dp" />
+
+
 
 </LinearLayout>

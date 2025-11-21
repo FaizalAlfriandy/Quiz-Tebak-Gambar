@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Saat ditekan -->
-    <item android:state_pressed="true">
+    <!-- Shadow -->
+    <item android:bottom="6dp">
         <shape android:shape="rectangle">
-            <solid android:color="#681A03"/>
-            <corners android:radius="20dp"/>
-            <padding android:left="16dp" android:top="12dp"
-                android:right="16dp" android:bottom="12dp"/>
-            <shadowColor android:color="#40000000"/>
+            <solid android:color="#000000"/>
+            <corners android:radius="26dp"/>
         </shape>
     </item>
 
-    <!-- Normal -->
+    <!-- Button utama -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#CC3706"/>
-            <corners android:radius="20dp"/>
-            <padding android:left="16dp" android:top="12dp"
-                android:right="16dp" android:bottom="12dp"/>
+            <solid android:color="#C03913"/> <!-- Warna merah bata -->
+            <corners android:radius="26dp"/> <!-- Rounded -->
+            <padding
+                android:left="15dp"
+                android:top="15dp"
+                android:right="15dp"
+                android:bottom="15dp"/>
         </shape>
     </item>
 
-</selector>
+</layer-list>

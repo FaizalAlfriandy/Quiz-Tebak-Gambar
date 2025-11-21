@@ -3,48 +3,82 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
-    android:layout_width="match_parent"
     android:id="@+id/mainMenuLayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundmenu"
     android:padding="20dp">
 
-    <!-- Logo / Mascot (Ganti src dengan gambar maskotmu) -->
+    <!-- SOUND BUTTON (POJOK KANAN ATAS) -->
+    <ImageButton
+        android:id="@+id/btnSound"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_circle_white"
+        android:contentDescription="Sound Toggle"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_sound_on" />
+
+    <!-- TEKS 'TEBAK GAMBAR' -->
+    <ImageView
+        android:id="@+id/imgText"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/tebak_gambar"
+        android:contentDescription="Text Tebak Gambar" />
+
+    <!-- LOGO -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_below="@id/imgText"
+        android:layout_marginTop="20dp"
         android:src="@drawable/iconicapk"
         android:contentDescription="Logo Tebak Gambar" />
 
-    <!-- Tombol AYO MAIN -->
-
-    <!-- Copyright footer -->
-
-
-    <Button
+    <!-- TOMBOL AYO MAIN -->
+    <ImageButton
         android:id="@+id/btnAyoMain"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="220dp"
+        android:layout_height="110dp"
         android:layout_below="@id/imgLogo"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="26dp"
-        android:background="@drawable/btn_main"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:text="AYO MAIN"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ayo_main_btn"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY" />
 
+    <!-- FOOTER TEXT -->
     <TextView
+        android:id="@+id/txtInspired"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="TEBAK GAMBAR © 2025"
-        android:textStyle="bold"
-        android:textColor="@color/white" />
+        android:layout_marginBottom="45dp"
+        android:text="Inspired By"
+        android:fontFamily="@font/luckiestguy_regular"
+        android:textColor="@color/white"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="4" />
+
+    <!-- FOOTER LOGO -->
+    <ImageView
+        android:id="@+id/imgInspiredLogo"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/tebakgambarasli"
+        android:contentDescription="Inspired Logo" />
 
 </RelativeLayout>

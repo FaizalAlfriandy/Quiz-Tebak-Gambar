@@ -1,17 +1,19 @@
 package com.faizal.quizkelompok1
 
+import android.content.SharedPreferences
+import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.faizal.quizkelompok1.R.id.mainMenuLayout
 
-// Data class untuk struktur soal
+// -------------------------------
+// DATA CLASS
+// -------------------------------
 data class SoalTebakGambar(
     val imageResId: Int,
     val jawabanBenar: String,
@@ -20,77 +22,151 @@ data class SoalTebakGambar(
 
 class MainActivity : AppCompatActivity() {
 
-    // Layout Menu
+    // -------------------------------
+    // UI MENU
+    // -------------------------------
     private lateinit var layoutMenu: View
-    private lateinit var btnAyoMain: Button
+    private lateinit var btnAyoMain: ImageButton
+    private lateinit var btnSound: ImageButton
 
-    // Layout Game
+    // -------------------------------
+    // UI GAME
+    // -------------------------------
     private lateinit var imgSoal: ImageView
     private lateinit var tvLevel: TextView
     private lateinit var buttons: List<Button>
-    private lateinit var btnKeluar: Button
 
-    // Logic
+    // -------------------------------
+    // GAME LOGIC
+    // -------------------------------
     private val allQuestions = ArrayList<SoalTebakGambar>()
     private var activeQuestions = ArrayList<SoalTebakGambar>()
     private var currentQuestionIndex = 0
     private var score = 0
 
+    // -------------------------------
+    // AUDIO
+    // -------------------------------
+    private var bgMenuMusic: MediaPlayer? = null
+    private var bgGameMusic: MediaPlayer? = null
+    private var isSoundOn = true
+
+    private lateinit var prefs: SharedPreferences
+
+    // SoundPool untuk efek
+    private lateinit var soundPool: SoundPool
+    private var soundBenar = 0
+    private var soundSalah = 0
+    private var soundSelesai = 0
+    private var soundTransisi = 0
+
+    // -------------------------------
+    // ON CREATE
+    // -------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        prefs = getSharedPreferences("settings", MODE_PRIVATE)
+        isSoundOn = prefs.getBoolean("sound", true)
+
+        // Init SoundPool
+        soundPool = SoundPool.Builder().setMaxStreams(6).build()
+        soundBenar = soundPool.load(this, R.raw.sound_benar, 1)
+        soundSalah = soundPool.load(this, R.raw.sound_salah, 1)
+        soundSelesai = soundPool.load(this, R.raw.selesai_sound, 1)
+        soundTransisi = soundPool.load(this, R.raw.transisi_sound, 1)
+
         showMenu()
     }
 
-    // 1. TAMPILKAN MENU
+    // ================================================================
+    // 1) TAMPILKAN MENU
+    // ================================================================
     private fun showMenu() {
         setContentView(R.layout.activity_main)
 
-        layoutMenu = findViewById(mainMenuLayout)
+        layoutMenu = findViewById(R.id.mainMenuLayout)
         btnAyoMain = findViewById(R.id.btnAyoMain)
+        btnSound = findViewById(R.id.btnSound)
 
-        val anim = AnimationUtils.loadAnimation(this, R.anim.zoom_in_out)
-        btnAyoMain.startAnimation(anim)
+        // Animasi tombol Ayo Main
+        btnAyoMain.startAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_out))
 
+        // Siapkan musik menu jika belum
+        if (bgMenuMusic == null) {
+            bgMenuMusic = MediaPlayer.create(this, R.raw.bg_music_menu)
+            bgMenuMusic?.isLooping = true
+        }
+
+        // Sinkron dengan toggle
+        updateSoundIcon()
+        if (isSoundOn) bgMenuMusic?.start() else bgMenuMusic?.pause()
+
+        // Tombol sound
+        btnSound.setOnClickListener { toggleSound() }
+
+        // Tombol mulai game
         btnAyoMain.setOnClickListener {
+            if (isSoundOn) {
+                soundPool.play(soundTransisi, 1f, 1f, 1, 0, 1f)
+            }
+
+            bgMenuMusic?.pause()
             prepareGameData()
             startGame()
         }
     }
 
-    // 2. SIAPKAN BANK SOAL
+    private fun updateSoundIcon() {
+        btnSound.setImageResource(
+            if (isSoundOn) R.drawable.ic_sound_on else R.drawable.ic_sound_off
+        )
+    }
+
+    private fun toggleSound() {
+        isSoundOn = !isSoundOn
+        prefs.edit().putBoolean("sound", isSoundOn).apply()
+
+        if (isSoundOn) bgMenuMusic?.start() else bgMenuMusic?.pause()
+        updateSoundIcon()
+    }
+
+    // ================================================================
+    // 2) SIAPKAN BANK SOAL
+    // ================================================================
     private fun prepareGameData() {
         allQuestions.clear()
-        val placeholderImg = android.R.drawable.ic_menu_gallery
 
-        allQuestions.add(SoalTebakGambar(placeholderImg, "KUCING", listOf("ANJING", "AYAM", "BEBEK")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "POHON", listOf("RUMPUT", "BUNGA", "DAUN")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "RUMAH", listOf("GEDUNG", "TOKO", "KANTOR")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "MOBIL", listOf("MOTOR", "SEPEDA", "BUS")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "LAPTOP", listOf("HP", "TABLET", "TV")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "BUKU", listOf("PENSIL", "PENGGARIS", "TAS")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "SEPATU", listOf("SANDAL", "KAOS KAKI", "TOPI")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "GELAS", listOf("PIRING", "MANGKUK", "SENDOK")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "MEJA", listOf("KURSI", "LEMARI", "KASUR")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "LAMPU", listOf("KIPAS", "AC", "KULKAS")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "JAM", listOf("KALENDER", "WAKTU", "DETIK")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "ROTI", listOf("NASI", "MIE", "KEJU")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "AIR", listOf("API", "TANAH", "UDARA")))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "API", listOf("AIR", "BATU", "KAYU")))
-        // <-- FIXED: memperbaiki typo (sebelumnya listOf("PASIR, TANAH", "KERIKIL"))
-        allQuestions.add(SoalTebakGambar(placeholderImg, "BATU", listOf("PASIR", "TANAH", "KERIKIL")))
+        val img = android.R.drawable.ic_menu_gallery
 
-        // Ambil 10 soal acak
+        allQuestions.add(SoalTebakGambar(R.drawable.asam_lambung, "ASAM LAMBUNG", listOf("ANJING", "AYAM", "BEBEK")))
+        allQuestions.add(SoalTebakGambar(R.drawable.bencana_susulan, "BENCANA SUSULAN", listOf("RUMPUT", "BUNGA", "DAUN")))
+        allQuestions.add(SoalTebakGambar(R.drawable.bisikan_jahat, "BISIKAN JAHAT", listOf("GEDUNG", "TOKO", "KANTOR")))
+        allQuestions.add(SoalTebakGambar(R.drawable.jurus_andalan, "JURUS ANDALAN", listOf("MOTOR", "SEPEDA", "BUS")))
+        allQuestions.add(SoalTebakGambar(R.drawable.kipas_angin, "KIPAS ANGIN", listOf("HP", "TABLET", "TV")))
+        allQuestions.add(SoalTebakGambar(R.drawable.kostum_matador, "KOSTUM MATADOR", listOf("PENSIL", "PENGGARIS", "TAS")))
+        allQuestions.add(SoalTebakGambar(R.drawable.meminta_imbalan, "MEMINTA IMBALAN", listOf("SANDAL", "KAOS KAKI", "TOPI")))
+        allQuestions.add(SoalTebakGambar(R.drawable.motif_garis, "MOTIF GARIS", listOf("PIRING", "MANGKUK", "SENDOK")))
+        allQuestions.add(SoalTebakGambar(R.drawable.penduduk_paris, "PENDUDUK PARIS", listOf("KURSI", "LEMARI", "KASUR")))
+        allQuestions.add(SoalTebakGambar(R.drawable.pulau_seribu, "PULAU SERIBU", listOf("KIPAS", "AC", "KULKAS")))
+        allQuestions.add(SoalTebakGambar(R.drawable.ruangan_terbuka, "RUANGAN TERBUKA", listOf("PENSIL", "PENGGARIS", "TAS")))
+        allQuestions.add(SoalTebakGambar(R.drawable.sajian_hajatan, "SEPATU", listOf("SANDAL", "KAOS KAKI", "TOPI")))
+        allQuestions.add(SoalTebakGambar(R.drawable.tahan_banting, "TAHAN BANTING", listOf("PIRING", "MANGKUK", "SENDOK")))
+        allQuestions.add(SoalTebakGambar(R.drawable.teks_pancasila, "TEKS PANCASILA", listOf("KURSI", "LEMARI", "KASUR")))
+        allQuestions.add(SoalTebakGambar(R.drawable.toko_seragam, "TOKO SERAGAM", listOf("KIPAS", "AC", "KULKAS")))
+
         activeQuestions.clear()
         activeQuestions.addAll(allQuestions.shuffled().take(10))
     }
 
-    // 3. MULAI GAME
+    // ================================================================
+    // 3) MULAI GAME
+    // ================================================================
     private fun startGame() {
         setContentView(R.layout.activity_game)
 
         imgSoal = findViewById(R.id.imgSoal)
         tvLevel = findViewById(R.id.tvLevel)
-        btnKeluar = findViewById(R.id.btnKeluar)
 
         buttons = listOf(
             findViewById(R.id.btnOptionA),
@@ -102,99 +178,107 @@ class MainActivity : AppCompatActivity() {
         currentQuestionIndex = 0
         score = 0
 
-        btnKeluar.setOnClickListener {
-            showExitDialog()
+        // Start musik game
+        if (bgGameMusic == null) {
+            bgGameMusic = MediaPlayer.create(this, R.raw.bg_music_game)
+            bgGameMusic?.isLooping = true
         }
+        if (isSoundOn) bgGameMusic?.start()
 
         loadQuestion()
     }
 
-    // 4. MUAT SOAL
+    // ================================================================
+    // 4) LOAD SOAL
+    // ================================================================
     private fun loadQuestion() {
         if (currentQuestionIndex >= activeQuestions.size) {
             finishGame()
             return
         }
 
-        val currentQ = activeQuestions[currentQuestionIndex]
+        val q = activeQuestions[currentQuestionIndex]
         tvLevel.text = "Soal ${currentQuestionIndex + 1}/${activeQuestions.size}"
-        imgSoal.setImageResource(currentQ.imageResId)
 
-        val options = ArrayList<String>()
-        options.add(currentQ.jawabanBenar)
-        options.addAll(currentQ.opsiLain)
-        options.shuffle()
+        imgSoal.setImageResource(q.imageResId)
 
-        // DEFENSIVE: pastikan selalu ada 4 item (jika data kurang, tambahkan placeholder yang non-aktif)
-        while (options.size < 4) {
-            options.add("—")
-        }
+        val options = (listOf(q.jawabanBenar) + q.opsiLain).shuffled()
 
         for (i in buttons.indices) {
-            val optText = options[i]
-            buttons[i].text = optText
+            val text = options[i]
+            val btn = buttons[i]
 
-            // Jika placeholder (tanda data kurang), non-aktifkan tombolnya
-            if (optText == "—") {
-                buttons[i].isEnabled = false
-                buttons[i].alpha = 0.6f
-            } else {
-                buttons[i].isEnabled = true
-                buttons[i].alpha = 1.0f
-            }
+            btn.text = text
+            btn.isEnabled = true
+            btn.alpha = 1f
+            btn.backgroundTintList = null
 
-            // Reset warna/tint jika kamu memakai custom drawable
-            try {
-                buttons[i].backgroundTintList = null
-            } catch (e: Exception) {
-                // ignore if not supported on some API/theme combos
-            }
-
-            buttons[i].setOnClickListener {
-                // hanya tangani klik kalau tombol aktif
-                if (buttons[i].isEnabled) {
-                    checkAnswer(optText, currentQ.jawabanBenar)
-                }
-            }
+            btn.setOnClickListener { checkAnswer(text, q.jawabanBenar) }
         }
     }
 
-    // 5. CEK JAWABAN
+    // ================================================================
+    // 5) CEK JAWABAN
+    // ================================================================
     private fun checkAnswer(selected: String, correct: String) {
+
         if (selected == correct) {
             score += 10
-            Toast.makeText(this, "Benar! +10 Poin", Toast.LENGTH_SHORT).show()
+            if (isSoundOn) soundPool.play(soundBenar, 1f, 1f, 1, 0, 1f)
         } else {
-            Toast.makeText(this, "Salah! Jawaban: $correct", Toast.LENGTH_SHORT).show()
+            if (isSoundOn) soundPool.play(soundSalah, 1f, 1f, 1, 0, 1f)
         }
 
         currentQuestionIndex++
-        android.os.Handler(mainLooper).postDelayed({
-            loadQuestion()
-        }, 500)
+        Handler(mainLooper).postDelayed({ loadQuestion() }, 500)
     }
 
-    // 6. DIALOG SELESAI
+    // ================================================================
+    // 6) FINISH GAME
+    // ================================================================
     private fun finishGame() {
+
+        if (isSoundOn) {
+            soundPool.play(soundSelesai, 1f, 1f, 1, 0, 1f)
+        }
+
+        bgGameMusic?.pause()
+
         AlertDialog.Builder(this)
             .setTitle("Permainan Selesai!")
             .setMessage("Skor Kamu: $score / 100")
             .setCancelable(false)
             .setPositiveButton("Main Lagi") { _, _ ->
+                bgGameMusic?.pause()
                 showMenu()
             }
             .show()
     }
 
-    // 7. DIALOG KELUAR
-    private fun showExitDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Keluar?")
-            .setMessage("Yakin ingin keluar dari quiz?")
-            .setNegativeButton("Batal", null)
-            .setPositiveButton("Keluar") { _, _ ->
-                showMenu()
+    // ================================================================
+    // LIFECYCLE
+    // ================================================================
+    override fun onPause() {
+        super.onPause()
+        bgMenuMusic?.pause()
+        bgGameMusic?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isSoundOn) {
+            if (currentQuestionIndex == 0) {
+                bgMenuMusic?.start()
+            } else {
+                bgGameMusic?.start()
             }
-            .show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bgMenuMusic?.release()
+        bgGameMusic?.release()
+        soundPool.release()
     }
 }
