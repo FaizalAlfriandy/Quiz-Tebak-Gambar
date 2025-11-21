@@ -119,9 +119,14 @@
             android:text="Pilihan D" />
 
     </GridLayout>
-
-
-
+    <ImageView
+        android:id="@+id/imgFeedback"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:src="@drawable/benar"
+        android:elevation="20dp"/>
 
 
 </LinearLayout>
